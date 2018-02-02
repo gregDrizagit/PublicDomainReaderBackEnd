@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20180131213735) do
     t.integer "author_id"
     t.integer "collection_id"
     t.integer "bookshelf_id"
+    t.string "language"
     t.string "img_url"
     t.string "pdf_url"
     t.index ["author_id"], name: "index_books_on_author_id"

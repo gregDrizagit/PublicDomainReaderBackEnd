@@ -30,7 +30,9 @@ class Api::V1::RequestController < ApplicationController
 
     if book["formats"].key?("application/pdf")
       new_author = save_author(book["authors"])
-      save_book(new_author, book)
+      new_book = save_book(new_author, book)
+      save_subjects(new_book, book["subjects"])
+      save_bookshelves(new_book, book["bookshelves"])
     end
   end
 
@@ -48,8 +50,8 @@ class Api::V1::RequestController < ApplicationController
       end
       return current_authors
     else
-      new_author = Author.create(name: "Unknown", birth_year: "Unknown", death_year: "Unknown")
-      return new_author
+      current_authors << Author.create(name: "Unknown", birth_year: "Unknown", death_year: "Unknown")
+      return current_authors
     end
   end
 
@@ -57,17 +59,29 @@ class Api::V1::RequestController < ApplicationController
 
   def save_book(authors, book)
     # authors.each do |author|
-      Book.find_or_create_by(title: book["title"]) do |bk|
+      new_book = Book.find_or_create_by(title: book["title"]) do |bk|
         if book["formats"].key?("image/jpeg")
-          bk.img_url = "No Image"
+          bk.img_url = book["formats"]["image/jpeg"]
         else
-          bk.img_url = book["formats"]["image/jpg"]
+          bk.img_url = "No Image"
         end
         bk.title = book["title"]
         bk.pdf_url = book["formats"]["application/pdf"]
+        bk.language = book["language"][0]
         bk.author_id = authors[0].id
       end
+      return new_book
+  end
 
+  def save_bookshelves(gutenbook, mybook)
+
+    Bookself.find_or_create_by(name:)
+  end
+  def save_subjects(new_book, subjects)
+    subjects.each do |subject|
+      new_subject = Subject.find_or_create_by(name: subject)
+      new_book.subject_id
+    end
   end
 
 end
