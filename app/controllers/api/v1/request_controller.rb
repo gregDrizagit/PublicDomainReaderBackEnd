@@ -1,6 +1,6 @@
 class Api::V1::RequestController < ApplicationController
   def fetch_data
-    url = 'http://gutendex.com/books?page=1600'
+    url = 'http://gutendex.com/books'
     pages = []
     page = JSON.parse(RestClient.get(url))
     pages << page
@@ -50,7 +50,11 @@ class Api::V1::RequestController < ApplicationController
       end
       return current_authors
     else
-      current_authors << Author.create(name: "Unknown", birth_year: "Unknown", death_year: "Unknown")
+      current_authors << Author.find_or_create_by(name: "Unknown") do |author|
+        author.birth_year = "Unknown"
+        author.death_year = "Unknown"
+      end
+
       return current_authors
     end
   end
@@ -67,20 +71,23 @@ class Api::V1::RequestController < ApplicationController
         end
         bk.title = book["title"]
         bk.pdf_url = book["formats"]["application/pdf"]
-        bk.language = book["language"][0]
+        bk.language = book["language"]
         bk.author_id = authors[0].id
       end
       return new_book
   end
 
-  def save_bookshelves(gutenbook, mybook)
-
-    Bookself.find_or_create_by(name:)
+  def save_bookshelves(new_book, bookshelves)
+    bookshelves.each do |bookshelf|
+      new_bookshelf = Bookshelf.find_or_create_by(name: bookshelf)
+      new_bookshelf.books << new_book
+    end
   end
+
   def save_subjects(new_book, subjects)
     subjects.each do |subject|
       new_subject = Subject.find_or_create_by(name: subject)
-      new_book.subject_id
+      new_book.subjects << new_subject
     end
   end
 

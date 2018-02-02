@@ -7,7 +7,7 @@ Rails.application.routes.draw do
       resources :books
       resources :bookshelves
       resources :collections
-      resources :subject
+      resources :subjects
 
       get '/seed', to: "request#fetch_data"
     end
