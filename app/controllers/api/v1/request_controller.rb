@@ -1,56 +1,73 @@
 class Api::V1::RequestController < ApplicationController
   def fetch_data
-    pageUrl = 'http://gutendex.com/books'
-    until page == false
+    url = 'http://gutendex.com/books?page=1600'
+    pages = []
+    page = JSON.parse(RestClient.get(url))
+    pages << page
+    next_page = page["next"]
+
+    until(page["next"] == nil) do#while next page isn't null
+
+      page = JSON.parse(RestClient.get(next_page))
+      puts "new_page"
+      next_page = page["next"]
       pages << page
-      pageUrl = page["next"]
+      puts pages.length
     end
+    byebug
+    pages.each do |page|
+      save_page(page)
+    end
+  end
 
-    page = RestClient.get(pageUrl)
+  def save_page(page)
+    page["results"].each do |book|
+      parse_book(book)
+    end
+  end
+
+  def parse_book(book)
+
+    if book["formats"].key?("application/pdf")
+      new_author = save_author(book["authors"])
+      save_book(new_author, book)
+    end
+  end
+
+  def save_author(authors)
+    current_authors = []
+    if authors.length > 0
+      authors.each do |author|
+        current_authors << Author.find_or_create_by(name: author["name"]) do |auth|
+
+          auth.name = author["name"]
+          auth.birth_year = author["birth_year"].to_s
+          auth.death_year = author["death_year"].to_s
+        end
+
+      end
+      return current_authors
+    else
+      new_author = Author.create(name: "Unknown", birth_year: "Unknown", death_year: "Unknown")
+      return new_author
+    end
+  end
 
 
-#
-#     require 'pry'
-# require 'rest-client'
-# # require 'net/http'
-# # require 'open-uri'
-# # require 'json'
-#
-# def get_character_movies_from_api(character)
-#   #make the web request
-#
-#   # uri = URI('http://www.swapi.co/api/people/')
-#   all_characters = RestClient.get('http://www.swapi.co/api/people/')
-#   character_hash = JSON.parse(all_characters)
-#   character_data = character_hash["results"].find { |data| data["name"] == character }
-#   film_urls = character_data["films"]
-#   film_data = film_urls.collect { |data| JSON.parse(RestClient.get(data)) }
-#   film_data
-#   # iterate over the character hash to find the collection of `films` for the given
-#   #   `character`
-#   # collect those film API urls, make a web request to each URL to get the info
-#   #  for that film
-#   # return value of this method should be collection of info about each film.
-#   #  i.e. an array of hashes in which each hash reps a given film
-#   # this collection will be the argument given to `parse_character_movies`
-#   #  and that method will do some nice presentation stuff: puts out a list
-#   #  of movies by title. play around with puts out other info about a given film.
-# end
-#
-# def parse_character_movies(films_hash)
-#   # some iteration magic and puts out the movies in a nice list
-#   # films_hash = get_character_movies_from_api("Luke Skywalker")
-#   films_hash.each.with_index(1) do |data, index|
-#     puts "#{index} " + data['title']
-#   end
-# end
-#
-# def show_character_movies(character)
-#   films_hash = get_character_movies_from_api(character)
-#   parse_character_movies(films_hash)
-#   # binding.pry
-# end
-#
-#
-#   end
+
+  def save_book(authors, book)
+    # authors.each do |author|
+      Book.find_or_create_by(title: book["title"]) do |bk|
+        if book["formats"].key?("image/jpeg")
+          bk.img_url = "No Image"
+        else
+          bk.img_url = book["formats"]["image/jpg"]
+        end
+        bk.title = book["title"]
+        bk.pdf_url = book["formats"]["application/pdf"]
+        bk.author_id = authors[0].id
+      end
+
+  end
+
 end
