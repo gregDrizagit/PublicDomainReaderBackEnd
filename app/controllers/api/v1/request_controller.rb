@@ -27,13 +27,22 @@ class Api::V1::RequestController < ApplicationController
   end
 
   def parse_book(book)
-
-    if book["formats"].key?("application/pdf")
-      new_author = save_author(book["authors"])
-      new_book = save_book(new_author, book)
-      save_subjects(new_book, book["subjects"])
-      save_bookshelves(new_book, book["bookshelves"])
+    book_format = ""
+    book["formats"].keys.each do |key|
+      if key.to_s.include?("text/html")
+        book_format = key
+      end
     end
+
+    if book_format != ""
+      if !book["formats"][book_format].include?(".zip")
+        new_author = save_author(book["authors"])
+        new_book = save_book(new_author, book, book_format)
+        save_subjects(new_book, book["subjects"])
+        save_bookshelves(new_book, book["bookshelves"])
+      end
+    end
+
   end
 
   def save_author(authors)
@@ -61,7 +70,7 @@ class Api::V1::RequestController < ApplicationController
 
 
 
-  def save_book(authors, book)
+  def save_book(authors, book, book_format)
     # authors.each do |author|
       new_book = Book.find_or_create_by(title: book["title"]) do |bk|
         if book["formats"].key?("image/jpeg")
@@ -70,7 +79,7 @@ class Api::V1::RequestController < ApplicationController
           bk.img_url = "No Image"
         end
         bk.title = book["title"]
-        bk.pdf_url = book["formats"]["application/pdf"]
+        bk.html_url = book["formats"][book_format]
         bk.language = book["language"]
         bk.author_id = authors[0].id
       end
@@ -89,6 +98,12 @@ class Api::V1::RequestController < ApplicationController
       new_subject = Subject.find_or_create_by(name: subject)
       new_book.subjects << new_subject
     end
+  end
+
+  def get_book
+    html = RestClient.get(params[:html_url])
+
+    render plain: html.to_s, status: 200
   end
 
 end

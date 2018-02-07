@@ -9,7 +9,11 @@ Rails.application.routes.draw do
       resources :collections
       resources :subjects
 
-      get '/seed', to: "request#fetch_data"
+      post '/auth', to: 'auth#create'
+      get '/current_user', to: 'auth#show'
+      post '/search', to: 'books#search'
+      post '/get_book', to: 'request#get_book'
+      # get '/seed', to: "request#fetch_data"
     end
   end
 end

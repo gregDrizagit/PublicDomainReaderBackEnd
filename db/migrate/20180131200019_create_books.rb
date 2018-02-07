@@ -6,7 +6,7 @@ class CreateBooks < ActiveRecord::Migration[5.1]
       t.belongs_to :collection, foreign_key: true
       t.belongs_to :bookshelf, foreign_key: true
       t.string :img_url
-      t.string :pdf_url
+      t.string :html_url
     end
   end
 end
