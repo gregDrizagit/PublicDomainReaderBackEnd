@@ -13,6 +13,14 @@ Rails.application.routes.draw do
       get '/current_user', to: 'auth#show'
       post '/search', to: 'books#search'
       post '/get_book', to: 'request#get_book'
+      post '/new', to: 'collections#new'
+
+
+      post '/book_list', to: "books#list"
+      post '/subject_list', to: "subjects#list"
+      post '/author_list', to: "authors#list"
+
+
       # get '/seed', to: "request#fetch_data"
     end
   end
