@@ -14,7 +14,6 @@ class Api::V1::BooksController < ApplicationController
       render json: {error: "Couldn't find anything..."}, status: 401
     end
   end
-
   def list
     @book_pages = Book.page(params[:page]).per(params[:results_per_page])
     render json: @book_pages, status: 200
