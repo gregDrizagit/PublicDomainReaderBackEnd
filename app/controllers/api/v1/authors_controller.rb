@@ -7,6 +7,6 @@ class Api::V1::AuthorsController < ApplicationController
 
   def list
     @authors_pages = Author.page(params[:page]).per(params[:results_per_page])
-    render json: @book_pages, status: 200
+    render json: @authors_pages, status: 200
   end
 end
