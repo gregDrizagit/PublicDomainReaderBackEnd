@@ -4,4 +4,5 @@ class User < ApplicationRecord
   # has_many :books, through: :subjects
   has_many :collections
   has_many :books, through: :collections
+  has_many :bookmarks
 end

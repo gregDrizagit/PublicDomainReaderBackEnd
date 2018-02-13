@@ -9,12 +9,14 @@ Rails.application.routes.draw do
       resources :collections
       resources :subjects
 
+      resources :bookmarks
+
       post '/auth', to: 'auth#create'
       get '/current_user', to: 'auth#show'
       post '/search', to: 'books#search'
       post '/get_book', to: 'request#get_book'
       post '/new', to: 'collections#new'
-
+      post '/load_bookmark', to: 'bookmarks#load_bookmark'
 
       post '/book_list', to: "books#list"
       post '/subject_list', to: "subjects#list"

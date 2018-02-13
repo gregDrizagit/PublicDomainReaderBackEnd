@@ -5,17 +5,23 @@ class Api::V1::BooksController < ApplicationController
     render json: @books, status: 200
   end
 
+  def show
+    @book = Book.find(params[:id])
+    render json: @book, status:200
+  end
+
   def search
     @search_results = Book.where("title LIKE ?", "%#{params[:query]}%")
 
     if @search_results.length > 0
+
       render json: @search_results, status: 200
     else
       render json: {error: "Couldn't find anything..."}, status: 401
     end
   end
   def list
-    @book_pages = Book.page(params[:page]).per(params[:results_per_page])
+    @book_pages = Book.includes(:author, :subjects).page(params[:page]).per(params[:results_per_page])
     render json: @book_pages, status: 200
   end
 

@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::API
+  serialization_scope :view_context
 
   def user_id
     token.first["id"]
