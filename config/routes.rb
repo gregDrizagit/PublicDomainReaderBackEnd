@@ -21,6 +21,8 @@ Rails.application.routes.draw do
       post '/book_list', to: "books#list"
       post '/subject_list', to: "subjects#list"
       post '/author_list', to: "authors#list"
+      post '/bookshelf_list', to: "bookshelves#list"
+
 
 
       # get '/seed', to: "request#fetch_data"
