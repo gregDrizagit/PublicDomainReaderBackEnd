@@ -1,3 +1,4 @@
+
 class Book < ApplicationRecord
   validates :title, uniqueness: true
   attr_accessor :book_id, :book_title, :book_author_id

@@ -11,12 +11,16 @@ class Api::V1::BooksController < ApplicationController
   end
 
   def search
-    @search_results = Book.where("title LIKE ?", "%#{params[:query]}%")
-
-    if @search_results.length > 0
-
-      render json: @search_results, status: 200
-    else
+    @books_results = Book.where("title LIKE ?", "%#{params[:query]}%")
+    @subjects_results = Subject.where("name LIKE ?", "%#{params[:query]}")
+    @authors_results = Author.where("name LIKE ?", "%#{params[:query]}")
+    @bookshelves_results = Bookshelf.where("name LIKE ?", "%#{params[:query]}")
+    serialized_books = @books_results.collect do |book|
+      BookSerializer.new(book)
+    end
+    if @books_results || @subjects_results || @authors_results || @bookshelves_results
+       render json: {books: serialized_books, subjects: @subjects_results, authors: @authors_results, bookshelves: @bookshelves_results}, status: 200
+     else
       render json: {error: "Couldn't find anything..."}, status: 401
     end
   end
