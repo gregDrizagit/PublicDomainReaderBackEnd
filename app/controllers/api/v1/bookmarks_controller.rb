@@ -6,10 +6,6 @@ class Api::V1::BookmarksController < ApplicationController
   end
 
   def create
-    # bookmark = Bookmark.find_or_create_by(book_id: params[:book_id]) do |bookmark|
-    #   bookmark.user_id = params[:user_id]
-    #   bookmark.paragraph = params[:paragraph]
-    # end
 
     bookmark = Bookmark.find_by(book_id: params[:book_id])
 
@@ -24,7 +20,7 @@ class Api::V1::BookmarksController < ApplicationController
   end
 
   def load_bookmark
-    
+
     @bookmark = Bookmark.find_by(book_id: params[:book_id])
     if @bookmark
       render json: @bookmark, status: 200

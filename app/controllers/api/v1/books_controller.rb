@@ -19,11 +19,12 @@ class Api::V1::BooksController < ApplicationController
       BookSerializer.new(book)
     end
     if @books_results || @subjects_results || @authors_results || @bookshelves_results
-       render json: {books: serialized_books, subjects: @subjects_results, authors: @authors_results, bookshelves: @bookshelves_results}, status: 200
+       render json: {filteredBooks: serialized_books, filteredSubjects: @subjects_results, filteredAuthors: @authors_results, filteredBookshelves: @bookshelves_results}, status: 200
      else
       render json: {error: "Couldn't find anything..."}, status: 401
     end
   end
+  
   def list
     @book_pages = Book.includes(:author, :subjects).page(params[:page]).per(params[:results_per_page])
     render json: @book_pages, status: 200
