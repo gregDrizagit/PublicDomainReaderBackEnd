@@ -16,6 +16,7 @@ class Api::V1::BooksController < ApplicationController
     @authors_results = Author.where("name LIKE ?", "%#{params[:query]}")
     @bookshelves_results = Bookshelf.where("name LIKE ?", "%#{params[:query]}")
     serialized_books = @books_results.collect do |book|
+      
       BookSerializer.new(book)
     end
     if @books_results || @subjects_results || @authors_results || @bookshelves_results
@@ -24,7 +25,7 @@ class Api::V1::BooksController < ApplicationController
       render json: {error: "Couldn't find anything..."}, status: 401
     end
   end
-  
+
   def list
     @book_pages = Book.includes(:author, :subjects).page(params[:page]).per(params[:results_per_page])
     render json: @book_pages, status: 200

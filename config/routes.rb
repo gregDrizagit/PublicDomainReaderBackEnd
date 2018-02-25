@@ -18,12 +18,12 @@ Rails.application.routes.draw do
       post '/new', to: 'collections#new'
       post '/load_bookmark', to: 'bookmarks#load_bookmark'
 
+      get '/currently_reading', to: "users#currently_reading"
+
       post '/book_list', to: "books#list"
       post '/subject_list', to: "subjects#list"
       post '/author_list', to: "authors#list"
       post '/bookshelf_list', to: "bookshelves#list"
-
-
 
       # get '/seed', to: "request#fetch_data"
     end

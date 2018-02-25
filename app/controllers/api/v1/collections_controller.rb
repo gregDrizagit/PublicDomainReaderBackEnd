@@ -11,6 +11,11 @@ class Api::V1::CollectionsController < ApplicationController
     new_collection.books << book
   end
 
+  def destroy
+    collection = Collection.find_by(id: params[:collection_id])
+    collection.destroy
+  end
+
   def new
 
     collection = Collection.find_by(name: params[:collection_name])

@@ -19,6 +19,7 @@ class Api::V1::BookmarksController < ApplicationController
     end
   end
 
+
   def load_bookmark
 
     @bookmark = Bookmark.find_by(book_id: params[:book_id])
