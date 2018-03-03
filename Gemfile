@@ -15,7 +15,6 @@ gem 'kaminari'
 gem 'fast_jsonapi'
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
-gem 'pg', '~> 0.18'
 gem 'mysql2'
 
 
