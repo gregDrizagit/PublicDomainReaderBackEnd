@@ -80,7 +80,6 @@ class Api::V1::RequestController < ApplicationController
         end
         bk.title = book["title"]
         bk.html_url = book["formats"][book_format]
-        bk.language = book["language"]
         bk.author_id = authors[0].id
       end
       return new_book

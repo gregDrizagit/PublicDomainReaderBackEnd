@@ -13,7 +13,7 @@ class Api::V1::BookmarksController < ApplicationController
       bookmark.update(paragraph: params[:paragraph])
       render json: bookmark, status: 200
     else
-      bookmark = bookmark = Bookmark.create(user_id: params[:user_id], book_id: params[:book_id], paragraph: params[:paragraph])
+      bookmark = Bookmark.create(user_id: params[:user_id], book_id: params[:book_id], paragraph: params[:paragraph])
       render json: bookmark, status: 200
 
     end
