@@ -13,7 +13,7 @@ gem 'puma', '~> 3.7'
 gem 'kaminari'
 gem 'mysql2'
 gem 'rails_12factor'
-
+# mysql2://bca31a759589fd:65e04c82@us-cdbr-iron-east-05.cleardb.net/heroku_8d8ec0e602851f1?reconnect=true
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
