@@ -5,9 +5,3 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-
-def fetch_data
-  data = RestClient.get('http://www.gutendex.com/books')
-  puts data
-end
-fetch_data
