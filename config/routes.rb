@@ -26,7 +26,7 @@ Rails.application.routes.draw do
       post '/bookshelf_list', to: "bookshelves#list"
 
       get '/test', to: 'users#test'
-      # get '/seed', to: "request#fetch_data"
+      get '/seed', to: "request#fetch_data"
     end
   end
 end
