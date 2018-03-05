@@ -20,7 +20,7 @@ class Api::V1::UsersController < ApplicationController
       puts "IT WORKED"
     end
 
-    render "test"
+    render html: '<h1>TEST</h1>'
   end
 
 end
