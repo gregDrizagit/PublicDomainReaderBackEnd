@@ -17,7 +17,10 @@ class Api::V1::UsersController < ApplicationController
 
   def test
     100.times do
+      puts "IT WORKED"
     end
+
+    render "test"
   end
 
 end
