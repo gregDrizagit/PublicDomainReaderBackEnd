@@ -15,4 +15,9 @@ class Api::V1::UsersController < ApplicationController
     render json: serialized_bookmarks, status: 200
   end
 
+  def test
+    100.times do
+    end
+  end
+
 end
