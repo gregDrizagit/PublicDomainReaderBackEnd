@@ -5,7 +5,7 @@ class Api::V1::RequestController < ApplicationController
     page = JSON.parse(RestClient.get(url))
     pages << page
     next_page = page["next"]
-
+    @status = ""
     until(page["next"] == nil) do#while next page isn't null
 
       page = JSON.parse(RestClient.get(next_page))
@@ -13,13 +13,14 @@ class Api::V1::RequestController < ApplicationController
       next_page = page["next"]
       pages << page
       # puts pages.length
-      render html: "On page #{pages.length}"
+      @status = "On page #{pages.length}"
 
     end
     pages.each do |page|
       save_page(page)
     end
-    render html: "Done"
+    @status = "done"
+    render html: @status
 
   end
 
@@ -77,7 +78,6 @@ class Api::V1::RequestController < ApplicationController
   def save_book(authors, book, book_format)
     # authors.each do |author|
       new_book = Book.find_or_create_by(title: book["title"]) do |bk|
-        render html: "adding a book"
 
         if book["formats"].key?("image/jpeg")
           bk.img_url = book["formats"]["image/jpeg"]
@@ -93,7 +93,6 @@ class Api::V1::RequestController < ApplicationController
 
   def save_bookshelves(new_book, bookshelves)
     bookshelves.each do |bookshelf|
-      render html: "adding a bookshelf"
       new_bookshelf = Bookshelf.find_or_create_by(name: bookshelf)
       new_bookshelf.books << new_book
     end
@@ -101,8 +100,6 @@ class Api::V1::RequestController < ApplicationController
 
   def save_subjects(new_book, subjects)
     subjects.each do |subject|
-      render html: "adding a subject"
-
       new_subject = Subject.find_or_create_by(name: subject)
       new_book.subjects << new_subject
     end
