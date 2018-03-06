@@ -5,7 +5,7 @@ class Api::V1::RequestController < ApplicationController
     page = JSON.parse(RestClient.get(url))
     pages << page
     next_page = page["next"]
-    @status = ""
+    @status = "seeding"
     until(page["next"] == nil) do#while next page isn't null
 
       page = JSON.parse(RestClient.get(next_page))
