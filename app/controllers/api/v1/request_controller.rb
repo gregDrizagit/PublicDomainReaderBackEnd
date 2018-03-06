@@ -53,7 +53,6 @@ class Api::V1::RequestController < ApplicationController
           auth.name = author["name"]
           auth.birth_year = author["birth_year"].to_s
           auth.death_year = author["death_year"].to_s
-          render html: "rendering #{author['name']}"
         end
 
       end
