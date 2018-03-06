@@ -5,7 +5,6 @@ class Api::V1::RequestController < ApplicationController
     page = JSON.parse(RestClient.get(url))
     pages << page
     next_page = page["next"]
-    @status = "seeding"
     until(page["next"] == nil) do#while next page isn't null
 
       page = JSON.parse(RestClient.get(next_page))
@@ -13,14 +12,10 @@ class Api::V1::RequestController < ApplicationController
       next_page = page["next"]
       pages << page
       # puts pages.length
-      @status = "On page #{pages.length}"
-
     end
     pages.each do |page|
       save_page(page)
     end
-    @status = "done"
-    render html: @status
 
   end
 
