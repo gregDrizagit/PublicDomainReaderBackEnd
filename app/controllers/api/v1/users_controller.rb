@@ -9,13 +9,15 @@ class Api::V1::UsersController < ApplicationController
 
 
     serialized_bookmarks = users.collect do |user|
-      if user.bookmarks
         BookmarkSerializer.new(user.bookmarks.last)
-      end
     end
     # serialized_bookmarks = users_currently_reading.collect do |bookmark|
     # end
-    render json: serialized_bookmarks, status: 200
+    if serialized_bookmarks
+      render json: serialized_bookmarks, status: 200
+    else
+      render json: {errors: "nobody is reading anything"}
+    end
   end
 
   def test
