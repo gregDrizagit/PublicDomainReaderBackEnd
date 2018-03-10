@@ -16,7 +16,7 @@ class Api::V1::UsersController < ApplicationController
     if serialized_bookmarks
       render json: serialized_bookmarks, status: 200
     else
-      render json: {errors: "nobody is reading anything"}
+      render json: {errors: "nobody is reading anything", status: 200}
     end
   end
 
