@@ -13,10 +13,10 @@ class Api::V1::UsersController < ApplicationController
     end
     # serialized_bookmarks = users_currently_reading.collect do |bookmark|
     # end
-    if serialized_bookmarks
+    if serialized_bookmarks.length > 0
       render json: serialized_bookmarks, status: 200
     else
-      render json: {errors: "nobody is reading anything", status: 200}
+      render json: [], status: 200
     end
   end
 
