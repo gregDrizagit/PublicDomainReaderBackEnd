@@ -7,7 +7,6 @@ class Api::V1::UsersController < ApplicationController
   def currently_reading
     users = User.all
 
-
     serialized_bookmarks = users.collect do |user|
         BookmarkSerializer.new(user.bookmarks.last)
     end
@@ -20,12 +19,5 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
-  def test
-    100.times do
-      puts "IT WORKED"
-    end
-
-    render html: 'TEST'
-  end
 
 end

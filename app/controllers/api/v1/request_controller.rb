@@ -11,8 +11,9 @@ class Api::V1::RequestController < ApplicationController
       # puts "new_page"
       next_page = page["next"]
       pages << page
-      # puts pages.length
+      puts pages.length
     end
+    byebug
     pages.each do |page|
       save_page(page)
     end

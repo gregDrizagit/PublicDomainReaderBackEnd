@@ -9,23 +9,24 @@ end
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.4'
 gem 'heroku'
-gem 'puma', '~> 3.7'
+gem 'puma', '~> 3.11', '>= 3.11.3'
 gem 'kaminari'
 gem 'mysql2'
 gem 'rails_12factor'
-gem 'pg'
+gem 'nio4r', '~> 2.3'
 # mysql2://bca31a759589fd:65e04c82@us-cdbr-iron-east-05.cleardb.net/heroku_8d8ec0e602851f1?reconnect=true
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
-gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt'
+# gem 'bcrypt', '~> 3.1.7'
 gem 'active_model_serializers'
 gem 'jwt'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
-
+gem 'nokogiri', '~> 1.6', '>= 1.6.8'
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'
 gem 'rest-client'
